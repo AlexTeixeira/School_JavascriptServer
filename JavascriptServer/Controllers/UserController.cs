@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JavascriptServer.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +53,22 @@ namespace JavascriptServer.Controllers
                 _applicationContext.SaveChanges();
 
                 return user;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        
+        [HttpGet("{id}/adresses")]
+        public async Task<IEnumerable<Adress>> Put([FromRoute]int id)
+        {
+            try
+            {
+                var entities = _applicationContext.Set<Adress>();
+
+                return await entities.Where(s => s.UserId == id).ToListAsync();
             }
             catch (Exception e)
             {
